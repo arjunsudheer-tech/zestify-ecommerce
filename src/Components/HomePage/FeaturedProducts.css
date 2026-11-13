@@ -1,0 +1,15 @@
+.featured-products-section {
+  margin: 65px;
+}
+
+.featured-products-section > h2 {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 65px;
+}
+
+.featured-products-list {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 65px;
+}

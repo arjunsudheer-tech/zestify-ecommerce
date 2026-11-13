@@ -1,0 +1,10 @@
+.products-sidebar {
+  padding: 10px 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.products-sidebar > h2 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
