@@ -1,17 +1,10 @@
 import LinkWithIcon from '../Navbar/LinkWithIcon';
 import './ProductsSidebar.css';
-import { useEffect, useState } from 'react';
-import apiClient from '../../utils/api-Client';
+import useData from '../../hooks/useData';
 
 const ProductsSidebar = () => {
-  const [categories , setCategories] = useState([]);
-  const [error , setError] = useState('');
-
-  useEffect(() => {
-    apiClient.get('/category')
-      .then((response) => setCategories(response.data))
-      .catch((error) => setError(error.message));
-  } , []);
+  
+  const { data: categories , error } = useData('/category')
 
   return (
     <aside className="products-sidebar">
@@ -19,7 +12,7 @@ const ProductsSidebar = () => {
       <div className="category-links">
         {error && <em className='form-error'>{error}</em>}
         {
-          categories.map((category) => 
+          categories && categories?.map((category) => 
         <LinkWithIcon 
           id={category._id}
           key={category._id}
