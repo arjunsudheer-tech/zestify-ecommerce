@@ -16,7 +16,7 @@ const ProductsSidebar = () => {
         <LinkWithIcon 
           id={category._id}
           key={category._id}
-          link={`products?category=${category.name}`}
+          link={`/products?category=${category.name}`}
           title={category.name}
           icon={`http://localhost:5001/category/${category.image}`}
           sidebar={true}
