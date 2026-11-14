@@ -1,10 +1,14 @@
 import ProductCard from './ProductCard';
 import './ProductsList.css';
 import useData from '../../hooks/useData';
+import Skeleton from 'react-loading-skeleton';
+import ProductCardSkeleton from './ProductCardSkeleton';
 
 const ProductsList = () => {
 
-  const {data , error} = useData('/products');
+  const {data , error , isLoading} = useData('/products');
+
+  const skeletons = [1 , 2 , 3 , 4 , 5 , 6 , 7 , 8];
 
   return (
     <section className="products-list-section">
@@ -21,6 +25,11 @@ const ProductsList = () => {
 
         <div className="products-list">
           {error && <em className='form-error'>{error}</em>}
+          {
+            isLoading && 
+            skeletons.map((n) => <ProductCardSkeleton key={n} />)
+          }
+
           {data?.products && data?.products?.map((product) => 
             <ProductCard 
               key={product._id} 
