@@ -1,11 +1,11 @@
 import './QuantityInput.css';
 
-const QuantityInput = () => {
+const QuantityInput = ({quantity , setQuantity , stock}) => {
   return (
     <>
-    <button className='quantity-input-button' disabled> - </button>
-      <p className="quantity-input-count">0</p>
-     <button className='quantity-input-button'> + </button>
+    <button className='quantity-input-button' disabled={quantity <=1} onClick={() => setQuantity(quantity - 1)}> - </button>
+      <p className="quantity-input-count">{quantity}</p>
+    <button className='quantity-input-button' disabled={quantity >= stock} onClick={() => setQuantity(quantity + 1)}> + </button>
     </>
   )
 }

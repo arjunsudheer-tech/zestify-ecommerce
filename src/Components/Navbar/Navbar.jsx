@@ -8,7 +8,7 @@ import orders from '../../assets/package.png';
 import lock from '../../assets/locked.png';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({user}) => {
   return (
     <nav className='navbar-container'>
       <div className="left-navbar">
@@ -25,13 +25,21 @@ const Navbar = () => {
       <div className="right-navbar">
         <LinkWithIcon link='/' title='Home' icon={rocket} />
         <LinkWithIcon link='/products' title='Products' icon={star} />
-        <LinkWithIcon link='/login' title='LogIn' icon={idButton} />
-        <LinkWithIcon link='/signup' title='SignUp' icon={memo} />
-        <LinkWithIcon link='/orders' title='My Orders' icon={orders} />
-        <LinkWithIcon link='/logout' title='LogOut' icon={lock} />
-        <NavLink to='/cart' className='cart-counts'>
-          Cart <p className='cart-count'>0</p>
-        </NavLink>
+        { !user && 
+          <>
+            <LinkWithIcon link='/login' title='LogIn' icon={idButton} />
+            <LinkWithIcon link='/signup' title='SignUp' icon={memo} />
+          </>
+        }
+        { user && 
+        <>
+          <LinkWithIcon link='/orders' title='My Orders' icon={orders} />
+          <LinkWithIcon link='/logout' title='LogOut' icon={lock} />
+          <NavLink to='/cart' className='cart-counts'>
+            Cart <p className='cart-count'>0</p>
+          </NavLink>
+        </>
+        }
       </div>
     </nav>
   )

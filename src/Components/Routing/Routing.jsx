@@ -1,4 +1,5 @@
 import LoginPage from '../Authentication/LoginPage';
+import Logout from '../Authentication/Logout';
 import SignupPage from '../Authentication/SignupPage';
 import CartPage from '../Cart/CartPage';
 import HomePage from '../HomePage/HomePage';
@@ -17,6 +18,7 @@ const Routing = () => {
       <Route path='/signup' element={<SignupPage />} />
       <Route path='/orders' element={<MyOrderPage />} />
       <Route path='/cart' element={<CartPage />} />
+      <Route path='/logout' element={<Logout />} />
     </Routes>
   )
 }

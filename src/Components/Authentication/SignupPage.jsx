@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { signup } from "../../services/userServices";
 
 const SignupPage = () => {
 
     const [profilePic , setProfilePic] = useState(null);
+    const [formError , setFormError] = useState('');
 
     const schema = z.object({
         name: z.string().min(3,{message: 'Name should be atleast 3 characters'}),
@@ -20,8 +22,17 @@ const SignupPage = () => {
         path: ['confirmPassword']
     })
 
-    const onSubmit = (FormData) => {
-        console.log(FormData);
+    const onSubmit = async (formData) => {
+        try {
+            const {data} = await signup(formData , profilePic);
+            localStorage.setItem('token',data.token);
+            window.location = '/';
+
+        } catch (error) {
+            if(error.response && error.response.status === 400) {
+                setFormError(error.response.data.message);
+            }
+        }
     } 
 
     const { register , handleSubmit , formState: {errors}} = useForm({resolver: zodResolver(schema)});
@@ -102,6 +113,8 @@ const SignupPage = () => {
                         {errors.deliveryAddress && <em className='form-error'>{errors.deliveryAddress.message}</em>}
                     </div>
                 </div>
+
+                {formError && <em className="form-error">{formError}</em>}
 
                 <button className='search-button form-submit' type='submit'>
                     Submit
