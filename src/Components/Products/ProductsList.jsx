@@ -4,12 +4,17 @@ import useData from '../../hooks/useData';
 import ProductCardSkeleton from './ProductCardSkeleton';
 import { useSearchParams } from 'react-router-dom';
 import Pagination from '../Common/Pagination';
+import { useEffect, useState } from 'react';
 
 const ProductsList = () => {
+
+  const [sortBy , setSortBy] = useState('');
+  const [sortedProducts , setSortedProducts] = useState([]);
 
   const [search , setSearch] = useSearchParams();
   const category = search.get('category');
   const page = search.get('page');
+  const searchQuery = search.get('search')
 
   const handlePageChange = (page) => {
     const currentParams = Object.fromEntries([...search]);
@@ -18,18 +23,37 @@ const ProductsList = () => {
 
   const {data , error , isLoading} = useData('/products' , {
     params: {
+      search: searchQuery,
       category,
       page
     }
-  } , [category , page]);
+  } , [searchQuery ,category , page]);
 
   const skeletons = [1 , 2 , 3 , 4 , 5 , 6 , 7 , 8];
+
+  useEffect(() => {
+    if(data && data.products) {
+      const products = [...data.products];
+
+      if(sortBy === 'price desc') {
+        setSortedProducts(products.sort((a,b) => b.price - a.price))
+      } else if(sortBy === 'price asc') {
+        setSortedProducts(products.sort((a,b) => a.price - b.price)) 
+      } else if(sortBy === 'rate desc') {
+        setSortedProducts(products.sort((a,b) => b.reviews.rate - a.reviews.rate))
+      } else if(sortBy === 'rate asc') {
+        setSortedProducts(products.sort((a,b) => a.reviews.rate - b.reviews.rate))
+      } else {
+        setSortedProducts(products)
+      }
+    }
+  } , [sortBy , data]);
 
   return (
     <section className="products-list-section">
       <header className="products-list-header">
         <h2>Products</h2>
-        <select name="sort" id="" className='products-sorting'>
+        <select name="sort" id="" className='products-sorting' onChange={(e) => setSortBy(e.target.value)}>
           <option value="">Relevance</option>
           <option value="price desc">Price HIGH to LOW</option>
           <option value="price asc">Price LOW to HIGH</option>
@@ -45,16 +69,10 @@ const ProductsList = () => {
             ? 
             skeletons.map((n) => <ProductCardSkeleton key={n} />)
             :
-            data?.products && data?.products?.map((product) => 
+            data?.products && sortedProducts.map((product) => 
             <ProductCard 
               key={product._id} 
-              id={product._id}
-              image={product.images[0]}
-              price={product.price}
-              title={product.title}
-              rating={product.reviews.rate}
-              ratingCount={product.reviews.count}
-              stock={product.stock}
+              product={product}
             />
           )}
         </div>

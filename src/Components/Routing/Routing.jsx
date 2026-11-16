@@ -7,6 +7,7 @@ import MyOrderPage from '../MyOrder/MyOrderPage';
 import ProductsPage from '../Products/ProductsPage';
 import SingleProductPage from '../SingleProduct/SingleProductPage';
 import { Routes , Route } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 
 const Routing = () => {
   return (
@@ -16,9 +17,11 @@ const Routing = () => {
       <Route path='/product/:id' element={<SingleProductPage />} />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/signup' element={<SignupPage />} />
-      <Route path='/orders' element={<MyOrderPage />} />
-      <Route path='/cart' element={<CartPage />} />
-      <Route path='/logout' element={<Logout />} />
+      <Route element={<ProtectedRoute />}> 
+        <Route path='/orders' element={<MyOrderPage />} />
+        <Route path='/cart' element={<CartPage />} />
+        <Route path='/logout' element={<Logout />} />
+      </Route>
     </Routes>
   )
 }

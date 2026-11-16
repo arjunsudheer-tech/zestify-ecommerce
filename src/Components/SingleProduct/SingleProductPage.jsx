@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import './SingleProductPage.css';
 import QuantityInput from './QuantityInput';
 import { useParams } from 'react-router-dom';
 import useData from '../../hooks/useData';
+import CartContext from '../../contexts/CartContext';
+import UserContext from '../../contexts/UserContext';
 
 const SingleProductPage = () => {
 
   const [selectedImage , setSelectedImage] = useState(0);
   const [quantity , setQuantity] = useState(1);
   const { id } = useParams();
+
+  const user = useContext(UserContext);
+
+  const { addToCart } = useContext(CartContext);
 
   const { data: product , error } = useData(`/products/${id}`);
 
@@ -29,6 +35,9 @@ const SingleProductPage = () => {
             <p className="single-product-description">{product.description}</p>
             <p className="single-product-price">${product.price.toFixed(2)}</p>
 
+          {
+            user && 
+            <>
             <h2 className="quantity-title">Quantity:</h2>
             <div className='quantity-input'>
               <QuantityInput 
@@ -37,7 +46,9 @@ const SingleProductPage = () => {
                 stock={product.stock}
               />
             </div>
-            <button className='search-button add-cart-button'>Add to Cart</button>
+            <button className='search-button add-cart-button' onClick={() => addToCart(product,quantity)}>Add to Cart</button>
+            </>
+          }
           </div>
         </div>
 

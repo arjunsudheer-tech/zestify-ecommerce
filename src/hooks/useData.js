@@ -1,5 +1,5 @@
 import { useState , useEffect } from "react";
-import apiClient from "../utils/api-Client";
+import apiClient from "../utils/api-client";
 
 const useData = (endpoint , customConfig , deps) => {
 

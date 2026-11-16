@@ -125,9 +125,3 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
-
-// name - Name should be at least 3 characters.
-// email - Please enter valid email
-// password - Password must be at least 8 characters.
-// confirmPassword - Confirm Password does not match Password
-// deliveryAddress - Address must be at least 15 characters.
