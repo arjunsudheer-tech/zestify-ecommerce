@@ -20,7 +20,7 @@ const App = () => {
     try {
       const jwt = localStorage.getItem('token');
       const jwtUser = jwtDecode(jwt);
-      if(Date.now() >= jwtUser.exp * 1000) {
+      if(Date.now() >= jwtUser.exp * 1000) { 
         localStorage.removeItem('token');
         window.location.reload();
       } else {
